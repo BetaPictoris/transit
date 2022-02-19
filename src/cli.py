@@ -7,11 +7,17 @@ import ftp, sys, getpass, time, ftplib
 from rich import print
 
 showWelcome = True
-mode = 'ssh'
 
-if mode == 'ssh':
+if '-m' in sys.argv:
+    mode = sys.argv[sys.argv.index('-s') + 1]
+else:
+    mode = 'ssh'
+
+print(mode)
+
+if mode == 'ssh' or mode == 'sftp':
     import sftp as ftp
-elif mode == 'ssh':
+elif mode == 'ftp':
     import ftp as ftp
 else:
     raise ValueError
