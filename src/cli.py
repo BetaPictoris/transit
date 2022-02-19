@@ -7,6 +7,14 @@ import ftp, sys, getpass, time, ftplib
 from rich import print
 
 showWelcome = True
+mode = 'ssh'
+
+if mode == 'ssh':
+    import sftp as ftp
+elif mode == 'ssh':
+    import ftp as ftp
+else:
+    raise ValueError
 
 def ls():
     for item in ftp.ls():
@@ -36,17 +44,23 @@ def download(filename):
     print(':heavy_check_mark: Done!         ', end='\r')
     print()
 #########################################################
-server = input('Server: ')                # test.rebex.net
-print(':wave: ', end='')
-username = input('Username: ')            # demo
+
+if '-s' in sys.argv:
+    server = sys.argv[sys.argv.index('-s') + 1]
+else:
+    server = input('Server: ')                # test.rebex.net
+
+if '-u' in sys.argv:
+    username = sys.argv[sys.argv.index('-u') + 1]
+else:
+    print(':wave: ', end='')
+    username = input('Username: ')            # demo
+
+
 print(':lock: ', end='')
 password = getpass.getpass('Password: ')  # password
 
-try:
-    ftp.connect(server=server, username=username, password=password)
-except:
-    print(':x: Couldn\'t connect.')
-    sys.exit()
+ftp.connect(server=server, username=username, password=password)
 
 print(':heavy_check_mark: Connected to the server.')
 
