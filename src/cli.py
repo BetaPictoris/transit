@@ -1,5 +1,5 @@
 '''
-Transit CLI (Version 0.1)
+Transit CLI (Version 0.2)
 MIT License
 '''
 
@@ -8,13 +8,17 @@ from rich import print
 
 showWelcome = True
 mode = 'ssh'
+if '-m' in sys.argv:
+    mode = sys.argv[sys.argv.index('-m') + 1]
 
 if mode == 'ssh':
     import sftp as ftp
-elif mode == 'ssh':
+elif mode == 'ftp':
     import ftp as ftp
 else:
     raise ValueError
+
+#print(f'Running in {mode} mode...')
 
 def ls():
     for item in ftp.ls():
